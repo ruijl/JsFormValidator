@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+</head>
+<body>
+
+<div>
+    {{ form_start(form ,{'attr':{'novalidate':'novalidate'} }) }}
+    {{ form_errors(form) }}
+    {{ form(form) }}
+    {{ form_end(form) }}
+</div>
+
+{{ include('FpJsFormValidatorBundle::javascripts.html.twig') }}
+{% block javascripts %}
+    <script>
+        jQuery(document).ready(function($) {
+
+            $('form[name="form"]').jsFormValidator(
+                    {
+                        groups: function() { //Never gets called
+                            var groups = ['Default'];
+
+                            if ($('#form_date').val() == 'testCondition') {
+                                groups.push('foobar');
+                            }
+
+                            console.log(groups);
+                            return groups;
+                        }
+                    }
+            );
+        });
+    </script>
+{% endblock javascripts %}
+
+</body>
+</html>
